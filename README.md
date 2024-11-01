@@ -27,22 +27,44 @@ This Clojure project converts logical expressions consisting of `and`, `or`, and
 - **`simplify`:** Symbolically simplifies `nor` expressions of arbitrary length.
 - **`bind-values`:** Replaces variables in expressions with given values (e.g., `true`, `false`) as specified in a binding map.
 
-## Example Conversions
+## Conversion Rules
 These are examples of the conversions `nor-convert` applies:
-- `(not x)` -> `(nor x)`
-- `(and x y)` -> `(nor (nor x) (nor y))`
-- `(or x y)` -> `(nor (nor x y))`
 
-Simplification rules include:
-- `(nor false)` -> `true`
-- `(nor true)` -> `false`
-- `(nor (nor x))` -> `x`
-- `(nor x x)` -> `(nor x)`
+| Original Expression         | `nor` Form                              |
+|-----------------------------|-----------------------------------------|
+| `(not x)`                   | `(nor x)`                               |
+| `(and x y)`                 | `(nor (nor x) (nor y))`                 |
+| `(and x y z)`               | `(nor (nor x) (nor y) (nor z))`         |
+| `(and w x y z)`             | `(nor (nor w) (nor x) (nor y) (nor z))` |
+| `(or x y)`                  | `(nor (nor x y))`                       |
+| `(or x y z)`                | `(nor (nor x y z))`                     |
+| `(or w x y z)`              | `(nor (nor w x y z))`                   |
+
+## Simplification Rules
+These rules are used to simplify `nor` expressions into their most reduced form:
+
+| Expression                      | Simplified Form                       |
+|---------------------------------|---------------------------------------|
+| `(nor false)`                   | `true`                                |
+| `(nor true)`                    | `false`                               |
+| `(nor (nor x))`                 | `x`                                   |
+| `(nor (nor (nor x)))`           | `(nor x)`                             |
+| `(nor (nor (nor (nor x))))`     | `x`                                   |
+| `(nor x x)`                     | `(nor x)`                             |
+| `(nor x x x)`                   | `(nor x)`                             |
+| `(nor x y)`                     | `(nor x y)`                           |
+| `(nor x true)`                  | `false`                               |
+| `(nor x false)`                 | `(nor x)`                             |
+| `(nor false false)`             | `true`                                |
+| `(nor x y false)`               | `(nor x y)`                           |
+| `(nor x false false)`           | `(nor x)`                             |
+| `(nor false false false)`       | `true`                                |
+| `(nor x y true)`                | `false`                               |
+| `(nor x y z)`                   | `(nor x y z)`                         |
 
 ## Dependencies
-- Clojure language runtime.
-  
+- **Clojure language runtime:** Requires Clojure to be installed, along with Java Development Kit (JDK), as Clojure runs on the Java Virtual Machine (JVM).
+
 ## Notes
 - Ensure that expressions are well-formed lists, using only the specified connectives (`and`, `or`, `not`).
 - Variable bindings can be partial, leaving some symbols unbound to simplify expressions at a symbolic level.
-  
