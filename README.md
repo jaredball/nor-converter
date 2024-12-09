@@ -1,4 +1,4 @@
-## Overview
+# Nor Converter
 This Clojure project converts logical expressions consisting of `and`, `or`, and `not` connectives to expressions using only the `nor` connective. After conversion, it symbolically simplifies the resulting `nor` expressions using specific rules.
 
 ## Features
