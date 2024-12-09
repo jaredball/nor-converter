@@ -63,7 +63,7 @@ These rules are used to simplify `nor` expressions into their most reduced form:
 | `(nor x y z)`                   | `(nor x y z)`                         |
 
 ## Dependencies
-- **Clojure language:** Requires Clojure to be installed, along with Java Development Kit (JDK), as Clojure runs on the Java Virtual Machine (JVM).
+- **Clojure language:** Requires Clojure to be installed.
 
 ## Notes
 - Ensure that expressions are well-formed lists, using only the specified connectives (`and`, `or`, `not`).
